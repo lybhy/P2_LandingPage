@@ -26,13 +26,11 @@ let sections;
 
 // Create new sections
 function createSections(number) {
-	console.log(number);
 	let main = document.getElementsByTagName("main")[0].innerHTML;
 	
 	for (i = 0; i < number; i++) {
 		let sectionHtml = '<section id="section'+[i+4]+'" data-nav="Section '+[i+4]+'"><div class="landing__container"><h2>Section '+[i+4]+'</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi fermentum metus faucibus lectus pharetra dapibus. Suspendisse potenti. Aenean aliquam elementum mi, ac euismod augue. Donec eget lacinia ex. Phasellus imperdiet porta orci eget mollis. Sed convallis sollicitudin mauris ac tincidunt. Donec bibendum, nulla eget bibendum consectetur, sem nisi aliquam leo, ut pulvinar quam nunc eu augue. Pellentesque maximus imperdiet elit a pharetra. Duis lectus mi, aliquam in mi quis, aliquam porttitor lacus. Morbi a tincidunt felis. Sed leo nunc, pharetra et elementum non, faucibus vitae elit. Integer nec libero venenatis libero ultricies molestie semper in tellus. Sed congue et odio sed euismod.</p><p>Aliquam a convallis justo. Vivamus venenatis, erat eget pulvinar gravida, ipsum lacus aliquet velit, vel luctus diam ipsum a diam. Cras eu tincidunt arcu, vitae rhoncus purus. Vestibulum fermentum consectetur porttitor. Suspendisse imperdiet porttitor tortor, eget elementum tortor mollis non.</p></div></section>';
 		main += sectionHtml;
-		console.log(main);
 	};
 	document.getElementsByTagName("main")[0].innerHTML = main;
 	sections = Array.from(document.getElementsByTagName('section'));
@@ -42,7 +40,7 @@ function createSections(number) {
 function createNav() {
 	let menuItem = '';
 	sections.forEach(function(section) {
-		menuItem += '<li> <a class="menu__link" href="#'+ section.id +'">' + section.dataset.nav + '</a></li>';
+		menuItem += '<li class="nav_item"> <a id="'+ section.id +'_nav" class="menu__link" href="#'+ section.id +'">' + section.dataset.nav + '</a></li>';
 	}); 
 	document.getElementById("navbar__list").innerHTML = menuItem;
 }
@@ -59,6 +57,17 @@ function setActive(activeSection) {
 		section.classList.remove("your-active-class");
 	});
 	activeSection.setAttribute("class", "your-active-class");
+	//set even menu__link as active
+	let sectionId = '#' + activeSection.id + '_nav';
+	let navItems = Array.from(document.getElementsByClassName('menu__link'))
+	let activeNav = document.querySelector(sectionId);
+	navItems.forEach(function(navItem) {
+		navItem.classList.remove("active__nav");
+		navItem.removeAttribute('style');
+	
+	});
+	activeNav.classList.add("active__nav");
+	activeNav.setAttribute('style', 'background-color: black; color: white');
 }
 
 // check if section is in viewport
